@@ -1,4 +1,5 @@
 #include <stdio.h>
+/* This function returns the size of some variant types*/
 
 int main(void)
 {
