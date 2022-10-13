@@ -1,5 +1,8 @@
 #include <stdio.h>
-/* This function returns the size of some variant types*/
+/* 
+ * main - Entry point .
+ * Return: always 0 (success)
+ * */
 
 int main(void)
 {
