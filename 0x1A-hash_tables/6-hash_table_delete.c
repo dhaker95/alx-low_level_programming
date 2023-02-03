@@ -1,44 +1,31 @@
 #include "hash_tables.h"
+
 /**
- * hash_table_set - this function adds an element to the hash table
- * @ht: the hash table that a new eement will be added
- * @key: the key for the new element
- * @value: the value for the new element
+ * hash_table_delete - delete table
+ * @ht: pointer to struct of hash table
  *
- * Return: On success, it returns 1. On error, it returns 0, and errno * is set appropriately
+ * Description: free and delete hash table
+ * Return: na
  */
-int hash_table_set(hash_table_t *ht, const char *key, const char *value)
+void hash_table_delete(hash_table_t *ht)
 {
-    unsigned long int hash_code;
-    hash_node_t *new = NULL, *aux;
-    if (!key || ht == NULL)
-        return (0);
-    new = create_node(key, value);
-    if (new == NULL)
-        return (0);
-    hash_code = key_index((unsigned char *)key, ht->size);
-    if (ht->array[hash_code] == NULL)
+    unsigned long int i;
+    hash_node_t *node, *temp;
+    
+    if (ht == NULL)
+        return;
+    for (i = 0; i < ht->size; i++)
     {
-        ht->array[hash_code] = new;
-        new->next = NULL;
-        return (1);
-    }
-    aux = ht->array[hash_code];
-    while (aux != NULL)
-    {
-        if (strcmp(aux->key, key) == 0)
+        node = ht->array[i];
+        while (node != NULL)
         {
-            free(aux->value);
-            aux->value = strdup(value);
-            free(new->key);
-            free(new->value);
-            free(new);
-            return (1);
+            temp = node;
+            node = node->next;
+            free(temp->key);
+            free(temp->value);
+            free(temp);
         }
     }
-    aux = aux->next;
-
-new->next = ht->array[hash_code];
-ht->array[hash_code] = new;
-return (1);
+    free(ht->array);
+    free(ht);
 }
